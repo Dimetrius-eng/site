@@ -1,158 +1,68 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Shop</title>
+  <title>Купівля</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 200;
-      color: var(--tg-theme-text-color);
-      background: var(--tg-theme-bg-color);
-    }
-
-    #main {
-      width: 100%;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      margin-top: 50px;
-      margin-bottom: 10px;
-    }
-
-    img {
-      width: 70px;
-      margin: 30px auto;
-    }
-
-    p {
-      width: 350px;
-      margin: 0 auto;
-    }
-
-    button {
-      border: 0;
-      border-radius: 5px;
-      margin-top: 50px;
-      height: 60px;
-      width: 200px;
-      font-size: 20px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 500ms ease;
-      color: var(--tg-theme-button-color);
-      background: var(--tg-theme-button-text-color);
-    }
-
-    button:hover {
-      background: var(--tg-theme-secondary-bg-color);
-    }
-
-    #form {
-      display: none;
-      text-align: center;
-    }
-
-    input {
-      width: 90%;
-      outline: none;
-      margin: 10px 5%;
-      padding: 15px 10px;
-      font-size: 14px;
-      border: 2px solid silver;
-      border-radius: 5px;
-    }
-
-    input:focus {
-      border-color: #db5d5d;
-    }
-
-    #error {
-      color: red;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .error { color: red; font-size: 14px; display: none; }
+    input { display: block; margin: 10px 0; padding: 8px; }
+    button { padding: 10px 15px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div id="main">
-    <h1>Онлайн-магазин</h1>
-    <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png"
-         alt="Логотип магазина"
-         width="150">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      Accusantium ipsum magni, molestias.
-    </p>
-    <button id="buy">Купить</button>
-  </div>
+  <h2>Форма замовлення</h2>
 
-  <form id="form">
-    <input type="text" placeholder="Имя" id="user_name">
-    <input type="text" placeholder="Email" id="user_email">
-    <input type="text" placeholder="Телефон" id="user_phone">
-    <button id="order">Оформить</button>
-    <p id="error"></p>
+  <form id="orderForm">
+    <label>Ім’я:</label>
+    <input type="text" id="name" placeholder="Введіть ім’я">
+    <div id="nameError" class="error">Помилка в імені</div>
+
+    <label>Пошта:</label>
+    <input type="text" id="email" placeholder="example@gmail.com">
+    <div id="emailError" class="error">Помилка у пошті</div>
+
+    <button type="submit">Відправити</button>
   </form>
 
-  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
   <script>
-    let tg = window.Telegram.WebApp;
-    let buy = document.getElementById("buy");
-    let order = document.getElementById("order");
-    tg.expand();
+    const form = document.getElementById("orderForm");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
 
-    buy.addEventListener("click", () => {
-      document.getElementById("main").style.display = "none";
-      document.getElementById("form").style.display = "block";
-      document.getElementById("user_name").value =
-        (tg.initDataUnsafe.user.first_name || "") + " " + (tg.initDataUnsafe.user.last_name || "");
-    });
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // блокуємо відправку форми
 
-    order.addEventListener("click", (event) => {
-      event.preventDefault();
-      let errorField = document.getElementById("error");
-      errorField.innerText = "";
+      let isValid = true;
 
-      let name = document.getElementById("user_name").value;
-      let email = document.getElementById("user_email").value;
-      let phone = document.getElementById("user_phone").value;
-
-      if (name.length < 5) {
-        tg.sendData(JSON.stringify({ error: "Помилка в імені" }));
-        tg.close();
-        return;
-      }
-      if (email.length < 5) {
-        tg.sendData(JSON.stringify({ error: "Помилка в пошті" }));
-        tg.close();
-        return;
-      }
-      if (phone.length < 5) {
-        tg.sendData(JSON.stringify({ error: "Помилка в телефоні" }));
-        tg.close();
-        return;
+      // Перевірка імені (мінімум 5 символів)
+      if (nameInput.value.trim().length < 5) {
+        nameError.style.display = "block";
+        isValid = false;
+      } else {
+        nameError.style.display = "none";
       }
 
-      let data = {
-        name: name,
-        email: email,
-        phone: phone
-      };
-      tg.sendData(JSON.stringify(data));
-      tg.close();
+      // Перевірка пошти (мінімум 5 символів)
+      if (emailInput.value.trim().length < 5) {
+        emailError.style.display = "block";
+        isValid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      // Якщо все введено правильно → надсилаємо дані боту
+      if (isValid) {
+        const userData = {
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim()
+        };
+
+        // Надсилаємо в Telegram-бота
+        window.Telegram.WebApp.sendData(JSON.stringify(userData));
+      }
     });
   </script>
 </body>
