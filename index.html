@@ -108,7 +108,7 @@ input:focus{
     let tg = window.Telegram.WebApp;
     let buy = document.getElementById("buy");
     let order = document.getElementById("order");
-    // tg.expand();
+    tg.expand();
 
     buy.addEventListener("click", ()=>{
         document.getElementById("main").style.display = "none";
@@ -117,33 +117,34 @@ input:focus{
     });
 
     order.addEventListener("click", ()=>{
-        // document.getElementById("error").innerText = '';
-        // let name = document.getElementById("user_name").value;
-        // let email = document.getElementById("user_email").value;
-        // let phone = document.getElementById("user_phone").value;
-        // if(name.length<5){
-        // document.getElementById("error").innerText = "Помилка в імені";
-        // return;
-        // }
-        // if(email.length<5){
-        // document.getElementById("error").innerText = "Помилка в пошті";
-        // return;
-        // }
-        // if(phone.length<5){
-        // document.getElementById("error").innerText = "Помилка в телефоні";
-        // return;
-        // } 
-        // let data = {
-        //     name:name,
-        //     email:email,
-        //     phone:phone
-        // }
-        // tg.sendData(JSON.stringify(data));
+        document.getElementById("error").innerText = '';
+        let name = document.getElementById("user_name").value;
+        let email = document.getElementById("user_email").value;
+        let phone = document.getElementById("user_phone").value;
+        if(name.length<5){
+        document.getElementById("error").innerText = "Помилка в імені";
+        return;
+        }
+        if(email.length<5){
+        document.getElementById("error").innerText = "Помилка в пошті";
+        return;
+        }
+        if(phone.length<5){
+        document.getElementById("error").innerText = "Помилка в телефоні";
+        return;
+        } 
+        let data = {
+            name:name,
+            email:email,
+            phone:phone
+        }
+        tg.sendData(JSON.stringify(data));
 
         tg.close();
     });
 </script>
 </body>
 </html>
+
 
 
