@@ -67,13 +67,13 @@ button:hover{
 }
 
 input{
-    width: 90%
+    width: 90%;
     outline: none;
     margin: 10px 5%;
     padding: 15px 10px;
     font-size: 14px;
     border: 2px solid silver;
-    border-radius: 5 px;
+    border-radius: 5px;
 }
 
 input:focus{
@@ -101,7 +101,7 @@ input:focus{
     <input type = "text" placeholder = "Имя" id = "user_name">
     <input type = "text" placeholder = "Email" id = "user_email">
     <input type = "text" placeholder = "Телефон" id = "user_phone">
-    <button id = "order">Оформить</button>>
+    <button id = "order">Оформить</button>
 </form>
 <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
 <script>
@@ -132,7 +132,7 @@ input:focus{
         if(phone.length<5){
         document.getElementById("error").innerText = "Помилка в телефоні";
         return;
-
+        } 
         let data = {
             name:name,
             email:email,
@@ -145,3 +145,4 @@ input:focus{
 </script>
 </body>
 </html>
+
